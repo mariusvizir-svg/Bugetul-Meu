@@ -1,0 +1,6 @@
+BUgetul Meu V3 — temă albastră și fonturi mai lizibile
+1. Exportă backup JSON din aplicația existentă.
+2. În GitHub, încarcă fișierele din acest pachet în rădăcina repository-ului, înlocuind fișierele existente cu același nume.
+3. Așteaptă publicarea din GitHub Pages și redeschide aplicația.
+4. Dacă rămâne designul vechi, deschide site-ul în Safari și reîncarcă pagina.
+Nu șterge aplicația instalată și nu șterge datele din browser.
