@@ -1,0 +1,1 @@
+V4 - butoane mobile simplificate: bara de jos ramane principala; Bugete si Setari sunt mutate intr-un singur buton „Mai mult”. Inainte de upload, fa backup JSON. Inlocuieste fisierele in acelasi repository si da Commit changes. Dupa publicare, inchide si redeschide aplicatia.
