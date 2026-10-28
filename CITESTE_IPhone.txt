@@ -1,0 +1,14 @@
+BUGETUL MEU pentru iPhone — PWA
+
+ATENȚIE: instalarea pe ecranul principal necesită o adresă HTTPS (nu deschiderea directă a fișierului din Files).
+
+1. Publică toate fișierele din acest folder într-un site HTTPS, de exemplu GitHub Pages, Netlify sau hosting propriu.
+2. Deschide adresa în Safari pe iPhone.
+3. Apasă Distribuie (Share) -> Adaugă la ecranul principal (Add to Home Screen) -> Adaugă.
+4. Deschide iconița Bugetul Meu. După prima încărcare online, funcționează și fără internet.
+5. Datele rămân DOAR pe acel iPhone în stocarea aplicației. Pentru siguranță exportă periodic Backup JSON din Setări și salvează-l în Files/iCloud Drive.
+
+Dacă folosești și versiunea de calculator, ele NU se sincronizează automat. Transferă manual datele prin Backup JSON -> restaurare. Restore înlocuiește datele existente pe dispozitiv.
+
+Pentru testare pe calculator poți folosi serverul: python -m http.server 8080 din folder și deschide http://localhost:8080.
+Nu introduce date financiare pe hosting public care adaugă scripturi terțe; ideal găzduire statică de încredere.
