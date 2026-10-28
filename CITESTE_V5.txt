@@ -1,0 +1,5 @@
+Bugetul Meu V5 — versiune publică fără date personale.
+Toate soldurile, bugetele și datoriile inițiale sunt zero / goale. Datele deja salvate local se păstrează deoarece cheia localStorage este neschimbată.
+FĂ BACKUP JSON înainte de actualizare. Nu încărca JSON-ul pe GitHub.
+Încarcă fișierele în rădăcina aceluiași repository și apasă Commit changes.
+Verifică accesând aplicația în mod privat: trebuie să apară zero datorii și zero solduri.
