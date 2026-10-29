@@ -1,1 +1,0 @@
-Bugetul Meu V13 — interfață reproiectată și calendar financiar vizual. Compatibil cu stocarea locală V12. Înainte de actualizare: Backup JSON. Fișierele aplicației se urcă în rădăcina repository-ului GitHub, fără backupul personal. Nu șterge aplicația instalată. Prognoza nu este sold real.
