@@ -1,0 +1,3 @@
+V19: grafice pe categorii și flux lunar în Rapoarte, comparație 6 luni, grafice incluse în raportul complet la tipărire / salvare PDF.
+Datele financiare rămân pe dispozitiv. Pentru export PDF cu grafice se folosește funcția de imprimare/salvare PDF a browserului; pe iOS disponibilitatea depinde de Safari.
+Înainte de actualizare: Backup JSON. Încarcă fișierele în rădăcina repository-ului existent; nu încărca backupul financiar în GitHub.

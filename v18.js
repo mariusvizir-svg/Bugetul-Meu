@@ -78,7 +78,7 @@
      card('Plăcintă cheltuieli','Unde se duc banii în luna selectată',expenseItems,'Total',fmt(exp),'Primele categorii de cheltuieli. Dacă nu vezi o categorie, înseamnă că nu are sume luna aceasta sau nu intră în top.')+
      card('Plăcintă flux lunar','Cum se împarte venitul acestei luni',flowItems,'Venituri',fmt(inc),inc>0?'Compară imediat cât consumi, cât plătești la datorii și cât reușești să păstrezi.':'Adaugă venituri pentru a vedea împărțirea lunară a banilor.')+
      card('Plăcintă disponibil','Cum sunt împărțiți banii disponibili',funds,'Disponibil',fmt((Number(b.Card)||0)+(Number(b.Numerar)||0)),'Include Card, Numerar și cardurile de bonuri/tichete configurate în aplicație.');
-   const pill=document.querySelector('.version-pill'); if(pill) pill.textContent='V18';
+   const pill=document.querySelector('.version-pill'); if(pill) pill.textContent='V19';
   };
   if(document.readyState!=='loading') renderDashboard();
 })();
