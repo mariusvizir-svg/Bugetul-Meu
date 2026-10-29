@@ -38,7 +38,7 @@
    function balance(c){
      const opening=Number(c.opening)||0;
      const diff=moves.filter(t=>t.cardId===c.id).reduce((sum,t)=>sum + ((t.kind==='load'?1:-1)*(Number(t.amount)||0)),0);
-     return Math.round((opening+diff)*100)/100;
+     const paid=data.transactions.filter(t=>t.type==='expense'&&t.account==='voucher:'+c.id).reduce((sum,t)=>sum+(Number(t.amount)||0),0);return Math.round((opening+diff-paid)*100)/100;
    }
    return cards.map(c=>({name:c.name, value:balance(c)})).filter(x=>x.value>0);
  }

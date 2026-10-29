@@ -1,0 +1,9 @@
+V20 – Plăți din carduri de bonuri direct din + Adaugă.
+
+• Din „Cheltuială → Plătit din” alege un card de bonuri.
+• Suma se scade din cardul de bonuri, fără să modifice banii din Card/Numerar.
+• Cheltuiala apare în Istoric și în Rapoarte, pe categorie.
+• Editarea/ștergerea cheltuielii recalculază soldul de tichete.
+• Dashboard: carduri cu sold și acces rapid la plată.
+• Rapoartele V19 sunt păstrate.
+• Nu șterge aplicația instalată și creează mai întâi un Backup JSON.

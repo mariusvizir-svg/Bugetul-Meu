@@ -1,0 +1,25 @@
+/* V20 visual refinement; V19 reports unchanged */
+:root{--v20-blue:#2864dc;--v20-ink:#182941}
+body{background:#eff3f9}
+.hero-v2{border-radius:25px;background:linear-gradient(135deg,#12335c,#17539a 64%,#247b9a);box-shadow:0 16px 35px #153a6e25}
+#dashboard .notice{display:none}
+#dashboard .stat-value{font-size:clamp(20px,2.1vw,27px)}
+#dashboard .card,#dashboard .surface{border-radius:22px}
+#dashboard .monthly-v2{margin-top:12px}
+.v20-accounts{margin-top:14px}.v20-accounts .section-head{margin-bottom:14px}
+.v20-accounts .section-head p{margin:3px 0 0}
+.v20-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.v20-mini-card{text-align:left;display:flex;flex-direction:column;gap:7px;border:0;border-radius:19px;padding:17px;background:linear-gradient(130deg,#183e78,#2865bb);color:#fff;min-height:144px;box-shadow:0 7px 20px #204c9830}
+.v20-mini-card:nth-child(even){background:linear-gradient(135deg,#19566c,#238a8f)}
+.v20-mini-card span{font-size:11px;letter-spacing:.04em;opacity:.85}
+.v20-mini-card strong{font-size:14px}.v20-mini-card b{font-size:23px;font-variant-numeric:tabular-nums}
+.v20-mini-card small{font-size:11px;opacity:.85}
+.v20-mini-card:focus-visible{outline:3px solid #c6d8ff;outline-offset:3px}
+.v20-emptystate{border:1px dashed #cbd9ed;border-radius:15px;padding:18px;font-size:13px;color:#60748c;background:#f5f8fd}
+.v20-account-hint{margin:7px 0 0;font-size:12px;color:#2463a3;line-height:1.45}
+#add .surface{border-radius:24px;box-shadow:0 18px 45px #21395212}
+#add .entry-type button{border-radius:14px}
+#add .entry-type .selected{background:#e2ecff;border-color:#9ab6ed;color:#174ca4}
+#history .v15-item{border-radius:12px}
+@media(max-width:650px){#dashboard .split{gap:10px}#dashboard .hero-v2{padding:20px;border-radius:20px}.v20-cards{grid-template-columns:1fr 1fr;gap:9px}.v20-mini-card{padding:13px;border-radius:15px;min-height:145px}.v20-mini-card b{font-size:20px}.v20-mini-card small{font-size:10px}#dashboard .pie-grid{gap:12px}#add .surface{border-radius:17px}}
+@media(max-width:390px){.v20-cards{grid-template-columns:1fr}}
