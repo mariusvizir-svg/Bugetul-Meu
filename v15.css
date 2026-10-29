@@ -1,0 +1,32 @@
+
+/* V15: unified mobile finance UI */
+:root{--v15-accent:#4387ff;--v15-line:rgba(124,158,206,.18)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif!important;line-height:1.46!important}
+.top{background:linear-gradient(115deg,#0b2346,#164da6)!important;box-shadow:0 10px 25px #071c3924!important}
+.logo{font-weight:850!important}
+.layout{max-width:1200px!important}
+.surface,.card{border-radius:21px!important;box-shadow:0 8px 28px #112d5320!important;border:1px solid var(--v15-line)!important}
+.panel h2{letter-spacing:-.7px!important}.panel h3{letter-spacing:-.25px!important}
+.btn,.hero-add{border-radius:14px!important;font-weight:750!important}
+.hero-v2{background:linear-gradient(130deg,#0b2344,#164da0 66%,#327af1)!important;border:1px solid #ffffff26;box-shadow:0 12px 38px #0f4daa33!important}
+.hero-v2 .hero-value{font-weight:850!important;letter-spacing:-1.5px!important}
+.grid .card{min-height:126px;border-radius:21px!important}
+.grid .card .stat-value{font-size:clamp(23px,3vw,31px)!important;line-height:1.13}
+.v14-launch{display:none!important}
+.v15-jump{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.v15-jump button{background:var(--card-bg,#fff);color:inherit;border:1px solid var(--v15-line);border-radius:17px;min-height:64px;padding:12px 8px;font-weight:750;box-shadow:0 4px 12px #182f5312}
+.v15-jump button span{display:block;font-size:21px;margin-bottom:2px}
+.v15-explain{background:var(--card-bg,#fff);color:inherit;border:1px solid var(--v15-line);border-radius:18px;padding:18px;margin:14px 0 18px}
+.v15-explain header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.v15-explain h3{margin:0!important;font-size:17px!important}
+.v15-money-line{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;font-size:14px;border-bottom:1px solid var(--v15-line)}.v15-money-line:last-of-type{border:0}
+.v15-caption{font-size:12px;color:#8297b4;margin-top:8px}
+.v15-chips{display:flex;gap:7px;overflow-x:auto;padding:0 0 10px;scrollbar-width:none}.v15-chips button{white-space:nowrap;background:#dbe9fc20;border:1px solid #8ba9d044;color:inherit;border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700;min-height:40px}.v15-chips button.selected{background:#2469d8;color:white;border-color:#2469d8}
+.v15-day{font-size:12px;color:#89a4c9;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:13px 2px 6px}
+.v15-item{display:flex;align-items:center;gap:12px;padding:12px 3px;border-bottom:1px solid var(--v15-line)}
+.v15-symbol{width:41px;height:41px;border-radius:15px;display:grid;place-items:center;background:#2169d424;color:#76a9ff;font-weight:850;font-size:19px;flex:none}
+.v15-main{min-width:0;flex:1}.v15-main strong{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.v15-main small{display:block;color:#91a5c2;font-size:12px;margin-top:3px}
+.v15-side{text-align:right;font-size:13px;font-weight:800;white-space:nowrap}.v15-empty{text-align:center;padding:42px 16px;color:#94a7c2}.v15-empty strong{color:inherit;display:block;font-size:17px;margin-bottom:8px}
+body.v14-dark .v15-explain,body.v14-dark .v15-jump button{--card-bg:#1b304e}
+@media(max-width:650px){.layout{padding:14px 13px calc(112px + env(safe-area-inset-bottom))!important}.top{padding:calc(12px + env(safe-area-inset-top)) 15px 12px!important}.hero-v2{border-radius:26px!important;padding:21px!important}.hero-v2 .hero-value{font-size:clamp(32px,9vw,44px)!important}.grid{gap:9px!important}.grid .card{min-height:121px;padding:15px!important}.grid .card .stat-value{font-size:clamp(19px,5.2vw,25px)!important;overflow-wrap:anywhere}.v15-jump{grid-template-columns:repeat(3,minmax(0,1fr))}.tabs{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(245,248,255,.95)!important;border-radius:19px 19px 0 0;box-shadow:0 -7px 30px #0a254027!important}.tab{font-size:11px!important;min-height:51px!important}.tab.active{background:rgba(40,107,210,.12)!important;color:#1f6cdd!important}.v15-explain{padding:15px}}
+@media(min-width:651px){.v15-jump{grid-template-columns:repeat(3,1fr);max-width:640px}}
+@media print{.v15-jump,.v15-explain{display:none!important}}

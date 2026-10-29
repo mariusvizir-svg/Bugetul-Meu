@@ -1,0 +1,32 @@
+/* Bugetul Meu V13: interface redesign, compatible with previous data */
+:root{--v13-line:rgba(117,145,185,.16)}
+body{letter-spacing:-.01em}
+.top{background:var(--primary,#123e82);border-bottom:1px solid #ffffff22;box-shadow:none}
+.logo{font-size:20px!important;letter-spacing:-.6px!important}
+.layout{max-width:1320px}
+.surface,.card{border:1px solid var(--v13-line)!important;border-radius:22px!important;box-shadow:0 10px 30px rgba(20,54,100,.055)!important}
+.panel h2{font-size:clamp(22px,3vw,29px);font-weight:800;letter-spacing:-.65px}
+.panel h3{font-size:17px;font-weight:750}
+.btn{border-radius:14px!important;transition:transform .15s,filter .15s}.btn:active,.tab:active{transform:scale(.97)}
+input,select,textarea{border-radius:14px!important;min-height:46px}
+.v12-page-head{background:linear-gradient(120deg,#174b96,#2369d7);padding:26px;border-radius:24px;color:white;margin-bottom:17px}
+.v12-page-head h2,.v12-page-head p,.v12-page-head .v12-eyebrow{color:white!important}
+.v12-page-head .btn{background:white!important;color:#174e9d!important;border:0}
+.v12-metric{border-radius:20px!important;min-height:120px}
+.v13-calendar{margin:16px 0;padding:20px!important}
+.v13-cal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px}
+.v13-cal-head h3{margin:3px 0!important;font-size:22px}.v13-cal-head p{margin:0;color:#7285a3;font-size:12px}
+.v13-tag{color:#3670dc;font-size:10px;letter-spacing:1.2px;font-weight:800}
+.v13-cal-link{background:#edf4ff;color:#2058ab;border:0;border-radius:12px;padding:11px;font-size:12px;font-weight:750}
+.v13-weekdays,.v13-cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.v13-weekdays{color:#7990ad;font-size:11px;text-align:center;font-weight:800;margin-bottom:8px}
+.v13-day{border:1px solid var(--v13-line);border-radius:13px;min-height:65px;background:rgba(125,164,220,.055);color:inherit;display:flex;flex-direction:column;align-items:flex-start;padding:9px;gap:8px;cursor:pointer}
+.v13-day.outside{opacity:.18;pointer-events:none}.v13-day.today{border-color:#4384e9;box-shadow:inset 0 0 0 1px #4384e9}.v13-day.selected{background:#dfebff;color:#164783;border-color:#5494f0}
+.v13-num{font-size:13px;font-weight:800}.v13-pips{display:flex;gap:3px}.v13-pip{width:7px;height:7px;border-radius:50%;background:#1baa83}.v13-pip.expense{background:#ec8a68}
+.v13-cal-legend{display:flex;gap:17px;flex-wrap:wrap;font-size:11px;color:#6e83a0;margin:15px 0}.v13-cal-legend span:first-child{color:#159673}.v13-cal-legend span:last-child{color:#d47855}
+.v13-cal-selection{font-size:13px;line-height:1.55;border-top:1px solid var(--v13-line);padding-top:12px}.v13-event{display:flex;justify-content:space-between;gap:10px;padding:10px 0}.v13-event b{font-weight:700}
+/* Real navigation: desktop sidebar, five iPhone tabs. Extra sections remain in the 'Meniu' screen */
+@media(min-width:901px){.top{position:sticky;top:0;z-index:20;padding:16px 32px}.layout{padding:30px 32px 90px 260px}.tabs{position:fixed;left:18px;top:100px;bottom:20px;width:214px;display:flex!important;flex-direction:column;overflow:auto;background:rgba(242,247,255,.94);border:1px solid #dce7f6;border-radius:24px;padding:14px;box-shadow:0 10px 40px #1e4a7912;z-index:10}.tabs .tab{width:100%;display:flex!important;align-items:center;justify-content:flex-start;text-align:left;gap:12px;padding:14px!important;font-size:13px!important;min-height:46px;border:0!important;background:transparent!important;color:#47617e!important}.tabs .tab.active{background:#dceaff!important;color:#164da1!important}.tabs .navicon{font-size:21px}.mobileQuick{display:none!important}}
+@media(max-width:900px){.tabs .tab[data-tab="budgets"],.tabs .tab[data-tab="debts"],.tabs .tab[data-tab="settings"],.tabs .tab[data-tab="categoriesPanel"]{display:none!important}}
+@media(max-width:650px){.layout{padding-bottom:calc(112px + env(safe-area-inset-bottom))}.tabs{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:0!important;padding-left:7px;padding-right:7px;background:rgba(252,253,255,.97)!important;backdrop-filter:blur(22px);box-shadow:0 -8px 30px #142a5321}.tabs .tab{border-radius:14px!important;font-size:11px!important;min-height:60px!important}.tabs .tab.active{background:#e8f1ff!important}.mobileQuick{display:none!important}.v12-page-head{padding:20px 18px}.v13-cal-head h3{font-size:19px}.v13-calendar{padding:14px!important}.v13-weekdays,.v13-cal-grid{gap:4px}.v13-day{padding:6px;min-height:53px;border-radius:10px}.v13-num{font-size:12px}.v13-cal-head p{font-size:11px}.v13-cal-link{padding:9px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

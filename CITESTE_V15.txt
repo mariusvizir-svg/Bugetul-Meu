@@ -1,0 +1,1 @@
+V15: dashboard clarificat, istoric pe zile, meniu consolidat, teme pastrate. Inainte de actualizare exporta backup JSON. Incarca continutul arhivei in radacina repository-ului GitHub. Nu sterge aplicatia de pe telefon. Nu incarca backupul JSON pe GitHub.
