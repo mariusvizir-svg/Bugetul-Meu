@@ -1,0 +1,1 @@
+V16: Editeaza/Sterge operatiuni din Istoric. Backup JSON inainte de update. Fisierele se incarca direct in radacina repository-ului. Nu sterge aplicatia iPhone.
