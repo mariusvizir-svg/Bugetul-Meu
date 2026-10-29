@@ -29,7 +29,7 @@ document.addEventListener('click',e=>{const c=e.target.closest('[data-v14delcard
 E('v14Print').addEventListener('click',()=>{report();window.print()});E('v14Csv').addEventListener('click',()=>E('csvBtn').click());
 const nav=document.querySelector('.v13-sidebar')||document.querySelector('.tabs');
 // Quick links appear in V13 main navigation, regardless of desktop/mobile layout.
-const linkbar=document.createElement('div');linkbar.className='v14-launch';linkbar.innerHTML=`<button type="button" data-v14go="v14accounts">💳 Carduri tichete</button><button type="button" data-v14go="v14operators">👤 Operatori</button><button type="button" data-v14go="v14report">📊 Raport complet</button>`;
+const linkbar=document.createElement('div');linkbar.className='v14-launch';linkbar.innerHTML=`<button type="button" data-v14go="v14accounts">💳 Carduri tichete</button><button type="button" data-v14go="v14operators">👤 Operatori</button>`;
 const target=E('v13Nav')||E('v12overview')||E('dashboard');target.parentNode.insertBefore(linkbar,target);
 linkbar.addEventListener('click',e=>{const b=e.target.closest('[data-v14go]');if(b){setTab(b.dataset.v14go);draw()}});
 // Keep report current when month changes and after app re-render.

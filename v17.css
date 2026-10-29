@@ -1,0 +1,6 @@
+/* Raport complet inclus in pagina Rapoarte, nu in Meniu. */
+#reports #v14report{margin-top:20px;padding:22px;border:1px solid var(--border, #dce5f1);border-radius:22px}
+#reports #v14report .v14-head h2{font-size:clamp(20px,3vw,28px)}
+#reports #v14report .v14-toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+@media(max-width:650px){#reports #v14report{padding:16px}#reports #v14report .v14-toolbar .btn{flex:1 1 100%}}
+@media print{#reports{display:block!important}#reports #v14report{display:block!important;box-shadow:none;border:0}#reports #reportStats,#reports>.split,#reports>.surface:not(#v14report){display:none!important}}

@@ -1,0 +1,1 @@
+V17: Raport complet este inclus in fereastra Rapoarte, nu in Meniu. Nu se schimba structura datelor. Fa backup JSON inainte de actualizare. Incarca fisierele direct in radacina repository-ului si confirma commit-ul. Nu incarca backupul pe GitHub.

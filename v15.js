@@ -4,7 +4,7 @@
  const $id=id=>document.getElementById(id);
  const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const navTarget=$id('more')||$id('dashboard');
- if(navTarget){const links=document.createElement('div');links.className='v15-jump';links.id='v15QuickLinks';links.innerHTML=`<button data-v15page="v14accounts"><span>💳</span>Carduri tichete</button><button data-v15page="v14operators"><span>👥</span>Operatori</button><button data-v15page="v14report"><span>▤</span>Raport complet</button>`;navTarget.insertBefore(links,navTarget.firstChild);links.addEventListener('click',e=>{const b=e.target.closest('[data-v15page]');if(b){setTab(b.dataset.v15page);window.scrollTo(0,0)}})}
+ if(navTarget){const links=document.createElement('div');links.className='v15-jump';links.id='v15QuickLinks';links.innerHTML=`<button data-v15page="v14accounts"><span>💳</span>Carduri tichete</button><button data-v15page="v14operators"><span>👥</span>Operatori</button>`;navTarget.insertBefore(links,navTarget.firstChild);links.addEventListener('click',e=>{const b=e.target.closest('[data-v15page]');if(b){setTab(b.dataset.v15page);window.scrollTo(0,0)}})}
  const dashboard=$id('dashboard');
  const explanation=document.createElement('div');explanation.className='v15-explain';explanation.id='v15BalanceExplain';explanation.setAttribute('aria-live','polite');
  const hero=dashboard?.querySelector('.hero-v2');if(hero)hero.insertAdjacentElement('afterend',explanation);

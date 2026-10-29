@@ -1,0 +1,20 @@
+
+/* V18 Dashboard charts */
+.pie-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:14px}
+.pie-card{background:#fff;border:1px solid #e5eaf1;border-radius:20px;padding:18px;box-shadow:0 8px 26px rgba(23,44,72,.05)}
+.pie-card h3{margin:0 0 4px;font-size:16px;color:#17304c}
+.pie-card .muted{font-size:12px}
+.pie-layout{display:grid;grid-template-columns:170px 1fr;gap:14px;align-items:center;margin-top:10px}
+.pie-visual{display:flex;justify-content:center;align-items:center}
+.pie-chart{width:160px;height:160px;display:block;overflow:visible}
+.pie-chart text{font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+.pie-legend{display:flex;flex-direction:column;gap:9px}
+.pie-legend-item{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #eef2f7}
+.pie-legend-item:last-child{border-bottom:0}
+.pie-dot{width:10px;height:10px;border-radius:50%}
+.pie-name{font-size:13px;color:#2d3d54;line-height:1.25}
+.pie-value{font-size:12px;font-weight:700;color:#1b2a40;text-align:right}
+.pie-foot{margin-top:10px;font-size:12px;color:#6f7f95;background:#f6f8fb;border:1px solid #e8edf3;border-radius:12px;padding:10px 12px;line-height:1.45}
+.pie-empty{display:flex;align-items:center;justify-content:center;min-height:160px;background:#f7f9fc;border:1px dashed #dbe4ef;border-radius:16px;color:#8090a7;font-size:13px;text-align:center;padding:12px}
+@media(max-width:960px){.pie-grid{grid-template-columns:1fr}.pie-layout{grid-template-columns:150px 1fr}.pie-chart{width:144px;height:144px}}
+@media(max-width:650px){.pie-card{padding:14px;border-radius:16px}.pie-layout{grid-template-columns:1fr;gap:10px}.pie-visual{justify-content:flex-start}.pie-chart{width:138px;height:138px}.pie-legend-item{padding:6px 0}.pie-grid{gap:10px;margin-top:10px}}

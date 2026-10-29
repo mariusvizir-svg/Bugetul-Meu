@@ -1,0 +1,13 @@
+V18 - dashboard cu grafice tip plăcintă (donut) pe ecranul principal.
+
+Noutăți:
+1. Plăcintă cheltuieli pe categorii.
+2. Plăcintă flux lunar: cheltuieli, rambursări, economisire.
+3. Plăcintă disponibil: Card, Numerar și carduri tichete/bonuri.
+4. Service worker actualizat la v18 pentru cache nou pe GitHub Pages.
+
+După upload pe GitHub Pages:
+- dă commit changes
+- așteaptă 1-2 minute
+- pe iPhone închide tabul vechi și redeschide linkul
+- dacă vezi versiune veche, dă Share -> Add to Home Screen din nou sau șterge site data pentru domeniu.
