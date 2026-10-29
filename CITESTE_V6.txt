@@ -1,6 +1,0 @@
-Bugetul Meu V6
-1. Exportă Backup JSON înainte de actualizare.
-2. Încarcă doar fișierele aplicației din acest folder în rădăcina repository-ului, apoi Commit changes. NU încărca backupurile.
-3. Ecrane separate prin meniu; Categorii personalizate (venituri și cheltuieli); PDF generat offline și partajare/salvare prin iOS.
-4. Stocarea locală păstrează cheia bugetul-meu-v1. Nu dezinstala aplicația și nu șterge datele Safari.
-5. Datele financiare din GitHub rămân goale. PDF: diacriticele sunt transliterate, pentru compatibilitate cu fontul integrat.
