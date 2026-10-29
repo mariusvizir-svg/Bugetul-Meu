@@ -1,0 +1,4 @@
+V14: carduri configurabile, operatori locali (NU autentificare), raport A4 și cache network-first.
+ATENȚIE: backup JSON înainte de update. Incarcă numai fișierele din folder direct în rădăcina repository-ului. Nu urca backup-uri pe GitHub.
+Cardurile din versiuni vechi rămân în evidență separată. Nu șterge aplicația instalată pe iPhone.
+Rapoarte: buton Tipărește / Salvează PDF folosește dialogul de tipărire al dispozitivului; pe iPhone salvarea ca PDF poate depinde de Safari/Share.
