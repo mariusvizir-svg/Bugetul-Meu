@@ -1,0 +1,3 @@
+V21 – Corecție plăți din card cadou și masă vechi (V11), plus carduri configurate (V14).
+Plata din Adaugă > Cheltuială scade soldul cardului ales și apare în Istoric/Rapoarte. Soldurile Card și Numerar nu sunt afectate. Cardurile deja existente nu sunt migrate sau dublate.
+IMPORTANT: Salvează Backup JSON înainte de actualizare. Nu șterge aplicația de pe telefon.

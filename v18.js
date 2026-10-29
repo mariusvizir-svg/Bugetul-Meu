@@ -40,7 +40,7 @@
      const diff=moves.filter(t=>t.cardId===c.id).reduce((sum,t)=>sum + ((t.kind==='load'?1:-1)*(Number(t.amount)||0)),0);
      const paid=data.transactions.filter(t=>t.type==='expense'&&t.account==='voucher:'+c.id).reduce((sum,t)=>sum+(Number(t.amount)||0),0);return Math.round((opening+diff-paid)*100)/100;
    }
-   return cards.map(c=>({name:c.name, value:balance(c)})).filter(x=>x.value>0);
+   const legacy=(data.v11?.vouchers||[]);const oldBalance=kind=>legacy.filter(t=>t.account===kind).reduce((v,t)=>v+(t.kind==='load'?1:-1)*(Number(t.amount)||0),0)-data.transactions.filter(t=>t.type==='expense'&&t.account==='voucher:legacy:'+kind).reduce((v,t)=>v+(Number(t.amount)||0),0);return [...cards.map(c=>({name:c.name,value:balance(c)})),{name:'Card de masă',value:oldBalance('meal')},{name:'Card cadou',value:oldBalance('gift')}].filter(x=>x.value>0);
  }
  function ensureWrap(){
    const dash=$('dashboard'); if(!dash) return null;
