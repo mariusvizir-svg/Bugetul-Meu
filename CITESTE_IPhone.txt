@@ -1,7 +1,0 @@
-Bugetul Meu V2 — actualizare pentru repository-ul existent.
-1. Fă mai întâi backup JSON din Setări / backup pe iPhone.
-2. În GitHub, încarcă fișierele acestui folder în rădăcina repository-ului Bugetul-Meu și confirmă înlocuirea fișierelor cu același nume.
-3. NU șterge repository-ul; NU încărca arhiva ZIP.
-4. Așteaptă publicarea Pages, închide și redeschide aplicația. La nevoie deschide întâi URL-ul GitHub Pages în Safari și reîncarcă pagina.
-5. Datele din localStorage sunt păstrate dacă rămâi pe aceeași origine și aceeași instalare. Păstrează backup-ul înainte de orice actualizare.
-Modificări: dashboard V2, grafic distribuție cheltuieli/rambursări, recomandări pe date reale, meniu modern și actualizare cache offline.
