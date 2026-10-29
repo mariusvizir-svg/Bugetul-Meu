@@ -1,7 +1,0 @@
-Bugetul Meu V10 — Modern UI.
-1. Exportă backup JSON înainte de update.
-2. Încarcă în același repository GitHub fișierele din acest pachet, în rădăcină, apoi Commit changes.
-3. Nu încărca backupul JSON pe GitHub.
-4. Nu șterge aplicația instalată; datele rămân în localStorage existent.
-5. Testează Istoric, Dashboard, detalii, teme și PDF pe iPhone.
-Datele personale și tranzacțiile nu sunt incluse în pachet.
