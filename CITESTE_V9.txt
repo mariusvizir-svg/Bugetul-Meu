@@ -1,1 +1,0 @@
-V9: Dashboard interactiv, detalii pentru venituri/cheltuieli/rambursări/sold, teme coloristice și mod dark/light/auto. Datele rămân în cheia localStorage bugetul-meu-v1. Fă Backup JSON înainte, nu dezinstala aplicația și nu urca fișierul JSON în GitHub. Încarcă fișierele direct în rădăcina aceluiași repository și fă Commit changes.
