@@ -1,0 +1,1 @@
+V8 — Imprumuturi primite si acordate. Datele reale NU sunt in sursele publice. Inainte de upgrade exporta backup JSON. Incarca continutul folderului in radacina repository-ului GitHub si Commit changes. Nu sterge aplicatia de pe iPhone. Vechile datorii raman in Datorii; nu le adauga din nou la Imprumuturi. Exportul PDF lunar include o anexa pentru imprumuturi.
