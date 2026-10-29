@@ -1,0 +1,1 @@
+V9.1 corectează fereastra de detalii: elementul modal este disponibil înainte de inițializarea evenimentelor. Nu șterge aplicația. Fă backup JSON, înlocuiește fișierele în repository și salvează prin Commit changes. Nu încărca JSON-ul personal pe GitHub.
