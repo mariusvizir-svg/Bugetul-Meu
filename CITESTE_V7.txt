@@ -1,1 +1,0 @@
-V7: PDF A4 cu tabele si font Unicode incorporat. FARA date personale in GitHub. Exporta backup JSON inainte de actualizare. Incarca fisierele in acelasi repository, cu Commit changes. Nu dezinstala aplicatia.
