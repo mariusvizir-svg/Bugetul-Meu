@@ -1,0 +1,1 @@
+V22: editare / arhivare / ștergere carduri fără tranzacții, solduri pe persoane și creditori. Păstrează backupul JSON înainte de actualizare. Cheia localStorage rămâne bugetul-meu-v1. Nu publica backupul JSON în GitHub.

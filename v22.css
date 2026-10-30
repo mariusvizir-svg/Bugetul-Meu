@@ -1,0 +1,19 @@
+/* V22 – card management and balance ledger */
+.v22-card-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:7px}
+.v22-card-actions button{font-size:12px;border:1px solid #d4dcea;border-radius:10px;background:#f6f8fc;color:#183a70;padding:7px 11px}
+.v22-card-actions .danger{color:#ad2638;background:#fff5f5;border-color:#f1ccd3}
+.v22-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0}
+.v22-sum{background:#f3f7fd;border:1px solid #e0e9f6;border-radius:15px;padding:15px}
+.v22-sum span{display:block;font-size:12px;color:#6a7d97}.v22-sum strong{display:block;margin-top:6px;font-size:21px}
+.v22-filter{max-width:430px;margin-bottom:18px}
+.v22-person{border:1px solid #e1e8f2;border-radius:17px;padding:15px;margin:12px 0;background:#fff}
+.v22-person h3{font-size:17px;margin:0 0 5px}.v22-person .v22-type{font-size:12px;color:#657995}
+.v22-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}
+.v22-ledger{padding:10px 12px;background:#f6f8fc;border-radius:12px}
+.v22-ledger div{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:6px 0;font-size:13px}
+.v22-ledger .v22-due{border-top:1px solid #dfe5ef;padding-top:9px;font-weight:800}
+.v22-person details{border-top:1px solid #e7edf5;padding-top:9px}.v22-person summary{cursor:pointer;font-weight:700;color:#2452a0}
+.v22-line{display:grid;grid-template-columns:84px 1fr auto;gap:7px;padding:8px 0;border-bottom:1px solid #eff2f6;font-size:12px}
+.v22-modal{border:0;border-radius:20px;padding:22px;width:min(92vw,470px);box-shadow:0 24px 80px #10243c44}
+.v22-modal::backdrop{background:#11243e8c}.v22-modal form{display:grid;gap:13px}.v22-modal .actions{margin:0}
+@media(max-width:620px){.v22-summary{grid-template-columns:1fr 1fr}.v22-summary .v22-sum:last-child{grid-column:1/-1}.v22-columns{grid-template-columns:1fr}.v22-card-actions{justify-content:flex-start}}
