@@ -84,6 +84,10 @@ Dacă după o actualizare vezi versiunea veche, închide tabul și redeschide li
 
 <img src="docs/carduri-blocare.png" alt="Conversie carduri și ecran de blocare" width="70%">
 
+## 🛟 Dacă aplicația nu pornește
+
+Aplicația afișează acum un ecran de eroare cu motivul exact (de exemplu un fișier lipsit din repository) și butonul **Curăță memoria cache a aplicației**, care nu șterge datele tale financiare. Cauza cea mai frecventă: un fișier din folderul `js/` nu a fost urcat sau publicat încă. Verifică în repository că toate cele 8 fișiere din `js/` există.
+
 ## 🗂 Structura proiectului
 
 ```

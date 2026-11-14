@@ -10,7 +10,7 @@ const pk=pw=>crypto.subtle.importKey('raw',TE.encode(pw),'PBKDF2',false,['derive
 const aes=async(pw,salt,it)=>crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:it,hash:'SHA-256'},await pk(pw),{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
 const vh=async(pw,salt)=>b64(await crypto.subtle.deriveBits({name:'PBKDF2',salt,iterations:150000,hash:'SHA-256'},await pk(pw),256));
 /* ---- IndexedDB ---- */
-const open=()=>new Promise(r=>{try{const q=indexedDB.open(DBN,1);q.onupgradeneeded=()=>{q.result.createObjectStore('kv');q.result.createObjectStore('snap')};q.onsuccess=()=>r(q.result);q.onerror=q.onblocked=()=>r(null)}catch{r(null)}});
+const open=()=>new Promise(r=>{const tm=setTimeout(()=>r(null),4000);const done=v=>{clearTimeout(tm);r(v)};try{const q=indexedDB.open(DBN,1);q.onupgradeneeded=()=>{q.result.createObjectStore('kv');q.result.createObjectStore('snap')};q.onsuccess=()=>done(q.result);q.onerror=q.onblocked=()=>done(null)}catch{done(null)}});
 const run=(st,mode,fn)=>new Promise((res,rej)=>{if(!db)return res(null);try{const t=db.transaction(st,mode),r=fn(t.objectStore(st));t.oncomplete=()=>res(r&&r.result!==undefined?r.result:null);t.onerror=t.onabort=()=>rej(t.error||new Error('IndexedDB'))}catch(e){rej(e)}});
 const get=(s,k)=>run(s,'readonly',o=>o.get(k)),put=(s,k,v)=>run(s,'readwrite',o=>o.put(v,k)),del=(s,k)=>run(s,'readwrite',o=>o.delete(k)),all=s=>run(s,'readonly',o=>o.getAll()).then(x=>x||[]);
 /* ---- plic (envelope) ---- */
@@ -61,7 +61,7 @@ const boot=async()=>{db=await open();
  else{if(db)for(const x of c)if(x.env)try{await put('snap','c'+Date.now()+x.src,{k:'c'+Date.now()+x.src,savedAt:Date.now(),label:'corupt-'+x.src,n:0,env:x.env})}catch{}
   const r=await fromSnap();if(r){data=r.d;notes.push('Datele principale erau corupte sau lipseau. Am recuperat din instantaneul '+r.k+'.')}else if(c.length)notes.push('Datele salvate nu pot fi citite. Importă un backup din Setări.')}
  window.__DATA__=data;
- try{persisted=navigator.storage&&navigator.storage.persist?await navigator.storage.persist():null}catch{}
+ try{persisted=navigator.storage&&navigator.storage.persist?await Promise.race([navigator.storage.persist(),new Promise(r=>setTimeout(()=>r(null),3000))]):null}catch{}
  ref=data;if(Array.isArray(data.transactions))try{await save(data)}catch(e){notes.push('Salvare inițială eșuată: '+e.message)}};
 const init=async()=>{try{await boot()}catch(e){notes.push('Pornire: '+e.message);if(!window.__DATA__)try{window.__DATA__=JSON.parse(localStorage.getItem(KEY))||{}}catch{window.__DATA__={}}}};
 /* ---- API ---- */

@@ -1,7 +1,44 @@
 <!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Bugetul Meu</title><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#082a63"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="stylesheet" href="app.css"></head><body>
-<aside id="side"><div class="brand"><i>◉</i> Bugetul Meu</div><nav id="nav"></nav><button class="nb" id="theme">🌓 Temă</button><small class="ver">V28 · date locale</small></aside>
+<aside id="side"><div class="brand"><i>◉</i> Bugetul Meu</div><nav id="nav"></nav><button class="nb" id="theme">🌓 Temă</button><small class="ver">V28.1 · date locale</small></aside>
 <div id="scrim"></div>
+<div id="splash" style="position:fixed;inset:0;display:grid;place-items:center;background:#eef3fb;color:#082a63;font:600 16px -apple-system,system-ui,sans-serif;z-index:5">Se încarcă…</div>
 <main><header><button id="burger" aria-label="Meniu">☰</button><h1 id="title"></h1><input type="month" id="month"><button class="btn" data-go="add">＋ Adaugă</button></header><section id="view"></section></main>
 <button class="btn fab" data-go="add" aria-label="Adaugă">＋</button>
+<script>
+(function(){
+var shown=false,booted=function(){return !!window.__booted};
+function ui(msg,fatal){
+ var o=document.getElementById('bm-err');
+ if(!o){o=document.createElement('div');o.id='bm-err';document.body.appendChild(o)}
+ var sp=document.getElementById('splash');if(sp&&fatal)sp.remove();
+ o.style.cssText=fatal?'position:fixed;inset:0;z-index:9999;background:#06214f;color:#fff;padding:24px;overflow:auto;font:15px/1.5 -apple-system,system-ui,sans-serif':'position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;background:#7a1020;color:#fff;border-radius:16px;padding:14px;font:13px/1.4 -apple-system,system-ui,sans-serif;max-height:40vh;overflow:auto';
+ if(!shown){o.innerHTML=(fatal?'<h2 style="margin:0 0 8px">Aplicația nu a putut porni</h2><p>Datele tale <b>nu au fost șterse</b>. Trimite-mi textul de mai jos (sau o captură) ca să repar.</p>':'<b>Eroare:</b> ')+'<pre id="bm-log" style="white-space:pre-wrap;word-break:break-word;background:rgba(255,255,255,.12);padding:10px;border-radius:12px;margin:8px 0"></pre><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="bm-r" style="padding:10px 16px;border:0;border-radius:99px;font:600 15px system-ui">Reîncarcă</button><button id="bm-c" style="padding:10px 16px;border:0;border-radius:99px;font:600 15px system-ui">Curăță memoria cache a aplicației</button>'+(fatal?'':'<button id="bm-x" style="padding:10px 16px;border:0;border-radius:99px;font:600 15px system-ui">Închide</button>')+'</div>'+(fatal?'<p style="opacity:.75;font-size:13px">„Curăță memoria cache” șterge doar fișierele aplicației salvate în browser, nu și datele tale financiare.</p>':'');
+  shown=true;
+  document.getElementById('bm-r').onclick=function(){location.reload()};
+  document.getElementById('bm-c').onclick=function(){var p=[];if(navigator.serviceWorker)p.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}));if(window.caches)p.push(caches.keys().then(function(k){return Promise.all(k.map(function(x){return caches.delete(x)}))}));Promise.all(p).catch(function(){}).then(function(){location.reload()})};
+  var x=document.getElementById('bm-x');if(x)x.onclick=function(){o.remove();shown=false};
+ }
+ var l=document.getElementById('bm-log');if(l)l.textContent+=msg+'\n';
+}
+window.addEventListener('error',function(e){if(e.target&&e.target!==window&&e.target.src){ui('Nu pot încărca '+e.target.getAttribute('src')+' (lipsește din repository sau nu s-a publicat încă).',!booted());return}
+ if(/ResizeObserver/.test(e.message||''))return;ui((e.message||'Eroare')+(e.filename?' ('+e.filename.split('/').slice(-2).join('/')+':'+e.lineno+')':''),!booted())},true);
+window.addEventListener('unhandledrejection',function(e){var r=e.reason;ui('Promisiune respinsă: '+(r&&r.message||r),!booted())});
+setTimeout(function(){if(!booted()&&!shown)ui('Pornirea durează neobișnuit de mult (stocarea browserului nu răspunde).',true)},15000);
+window.__V='28.1';
+window.__bmDown=function(){var o=document.getElementById('bm-err');if(!o)return;o.style.cssText='position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;background:#7a1020;color:#fff;border-radius:16px;padding:14px;font:13px/1.4 -apple-system,system-ui,sans-serif;max-height:40vh;overflow:auto';var h=o.querySelector('h2');if(h)h.textContent='Atenție';var b=document.createElement('button');b.id='bm-x';b.textContent='Închide';b.style.cssText='padding:10px 16px;border:0;border-radius:99px;font:600 15px system-ui';b.onclick=function(){o.remove();shown=false};o.querySelector('div').appendChild(b)};
+})();
+</script>
 <script src="store.js"></script>
-<script>Store.init().then(()=>{['core','features','dashboard','reports','crud','security-ui','v28','main'].forEach(n=>{const s=document.createElement('script');s.src='js/'+n+'.js';s.async=false;document.body.append(s)})})</script>
+<script>
+(function(){
+var MODS=['core','features','dashboard','reports','crud','security-ui','v28','main'];
+function go(){MODS.forEach(function(n){var s=document.createElement('script');s.src='js/'+n+'.js';s.async=false;document.body.appendChild(s)})}
+if(typeof Store==='undefined'){window.dispatchEvent(new ErrorEvent('error',{message:'store.js nu s-a încărcat'}));return}
+var t=new Promise(function(r){setTimeout(function(){r('timeout')},12000)});
+Promise.race([Store.init(),t]).then(function(r){
+ if(r==='timeout'){var ok=false;try{var d=JSON.parse(localStorage.getItem('bugetul-meu-v1'));ok=d&&Array.isArray(d.transactions);if(ok)window.__DATA__=d}catch(e){}
+  if(!ok){window.dispatchEvent(new ErrorEvent('error',{message:'Stocarea nu a răspuns în 12 secunde și nu am o copie sigură de citit. Datele nu au fost modificate. Reîncarcă; dacă persistă, închide complet aplicația și redeschide-o.'}));return}}
+ go()}).catch(function(e){window.dispatchEvent(new ErrorEvent('error',{message:'Pornire stocare: '+(e&&e.message||e)}))});
+})();
+</script>
+</body></html>
