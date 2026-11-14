@@ -18,7 +18,7 @@ Aplicație web de buget personal, în limba română, care rulează direct în b
 | **Economii** | Obiective cu progres, contribuții și retrageri |
 | **Persoane** | Cine îți datorează și cui datorezi, cu istoric și împrumuturi |
 | **Datorii** | Creditori, sume totale și cât a rămas de plătit |
-| **Carduri tichete** | Carduri de masă sau cadou, cu alimentări și plăți din sold |
+| **Carduri tichete** | Carduri de masă sau cadou, cu alimentări și plăți din sold. Cardurile vechi din V22 se convertesc într-un singur clic, cu verificarea soldului |
 | **Setări** | Solduri inițiale, bugete lunare, categorii proprii, backup și import JSON |
 | **Editare și ștergere** | Orice înregistrare se poate edita sau șterge: operațiuni (cu duplicare), carduri și alimentările lor, datorii, împrumuturi, obiective și mișcările lor, evenimente planificate, categorii. Ștergerile mari cer confirmare, iar cele simple au „Anulează” |
 
@@ -52,18 +52,30 @@ După prima încărcare, aplicația funcționează și fără internet.
 
 Dacă după o actualizare vezi versiunea veche, închide tabul și redeschide linkul. Service worker-ul își reîmprospătează singur memoria cache.
 
-## 🔒 Date și confidențialitate
+## 🔒 Securitate și siguranța datelor
 
-- Totul se salvează în `localStorage`, sub cheia `bugetul-meu-v1`.
-- Nimic nu este trimis pe internet.
-- Datele sunt legate de browserul și dispozitivul pe care le-ai introdus.
-- Dacă ștergi datele site-ului din browser, le pierzi. **Fă backup JSON periodic** din *Setări*. Aplicația te avertizează după 30 de zile fără backup.
-- ⚠️ Nu urca fișierul de backup pe GitHub, pentru că conține finanțele tale.
+- **Stocare dublă:** datele se salvează în **IndexedDB** și în **localStorage** (cheia `bugetul-meu-v1`). La pornire se alege automat copia validă și cea mai recentă.
+- **Sumă de control (SHA-256):** o copie coruptă este detectată, ignorată și reparată din cealaltă. Copiile corupte se păstrează pentru analiză.
+- **Instantanee automate:** unul pe zi (ultimele 20), plus unul înainte de import, restaurare sau conversie. Se pot restaura din *Setări*.
+- **Stocare persistentă:** aplicația cere browserului să nu șteargă datele. Pe iPhone, adaug-o pe ecranul principal.
+- **Verifică stocarea:** buton în *Setări* care testează scrierea/citirea, integritatea copiilor, spațiul folosit și persistența.
+- **Parolă cu criptare:** datele se criptează cu AES-256-GCM, cheia derivată din parolă (PBKDF2, 250.000 de iterații). **Fără parolă datele nu pot fi citite de nimeni, inclusiv de tine.**
+- **Face ID / Touch ID:** blocare prin WebAuthn (iOS 16+, necesită HTTPS), cu parolă de rezervă. Este o **blocare a accesului în aplicație, nu o criptare**.
+- **Blocare automată:** imediat, după 30 de secunde, 1 minut, 5 minute sau niciodată.
+- **Import validat:** backup-ul este verificat (format, date, sume, id-uri duplicate), iar înregistrările invalide sunt ignorate, cu avertisment.
+
+> ⚠️ Nu există recuperare de parolă. Păstrează un backup JSON recent și nu-l urca pe GitHub: conține finanțele tale.
+> Nicio dată nu este trimisă pe internet. Dacă ștergi datele site-ului din browser, le pierzi, de aceea backup-ul rămâne important.
+
+![Securitate](docs/securitate-mobil.png)
+
+<img src="docs/carduri-blocare.png" alt="Conversie carduri și ecran de blocare" width="70%">
 
 ## 🗂 Structura proiectului
 
 ```
 index.html            # structura paginii
+store.js              # stocare sigură, criptare, Face ID, instantanee
 app.css               # stiluri, temă luminoasă/întunecată, responsive
 app.js                # toată logica aplicației
 sw.js                 # service worker (funcționare offline)

@@ -59,3 +59,4 @@ dialog{border:0;border-radius:22px;padding:22px;width:min(92vw,440px);background
 .hero{background:linear-gradient(135deg,#082a63,#1a4d9c)}aside{background:linear-gradient(170deg,#06214f,#0e3a85)}
 .bar,.bar i{border-radius:999px}.chip{border-radius:999px}
 @media(max-width:900px){.btn.d{min-width:32px;height:32px;margin-left:4px;padding:0 9px}}
+#lock{position:fixed;inset:0;z-index:100;background:linear-gradient(160deg,#06214f,#0e3a85);display:grid;place-items:center;padding:20px}.lockbox{background:var(--card);color:var(--tx);border-radius:28px;padding:28px;width:min(92vw,380px);display:grid;gap:12px;text-align:center}.lockbox h2,.lockbox p{margin:0}.lockico{font-size:46px}.lerr{color:var(--er);min-height:18px;font-size:14px;font-weight:600}

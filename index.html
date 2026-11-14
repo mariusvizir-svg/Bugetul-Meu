@@ -1,6 +1,7 @@
 <!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Bugetul Meu</title><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#082a63"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="stylesheet" href="app.css"></head><body>
-<aside id="side"><div class="brand"><i>◉</i> Bugetul Meu</div><nav id="nav"></nav><button class="nb" id="theme">🌓 Temă</button><small class="ver">V26 · date locale</small></aside>
+<aside id="side"><div class="brand"><i>◉</i> Bugetul Meu</div><nav id="nav"></nav><button class="nb" id="theme">🌓 Temă</button><small class="ver">V27 · date locale</small></aside>
 <div id="scrim"></div>
 <main><header><button id="burger" aria-label="Meniu">☰</button><h1 id="title"></h1><input type="month" id="month"><button class="btn" data-go="add">＋ Adaugă</button></header><section id="view"></section></main>
 <button class="btn fab" data-go="add" aria-label="Adaugă">＋</button>
-<script src="app.js"></script></body></html>
+<script src="store.js"></script>
+<script>Store.init().then(()=>{const s=document.createElement('script');s.src='app.js';document.body.append(s)})</script></body></html>
