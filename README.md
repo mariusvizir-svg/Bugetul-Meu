@@ -11,9 +11,9 @@ Aplicație web de buget personal, în limba română, care rulează direct în b
 | Zonă | Ce poți face |
 |---|---|
 | **Acasă** | Avere netă, venituri, cheltuieli, rambursări, grafic pe categorii, tendință pe 6 luni, „Pot cheltui azi", bugete și alerte |
-| **Adaugă** | Cheltuieli, încasări, rambursări de datorii și transferuri între Card și Numerar |
-| **Istoric** | Căutare, filtre pe tip, editare și ștergere cu opțiunea de anulare |
-| **Rapoarte** | 10 rapoarte: Prezentare (flux Sankey, venituri vs cheltuieli, evoluția soldului, recurente, hartă termică), Bugete, Categorie, Datorii și economii, Conturi și tichete, Prognoză, An, Venituri, Comercianți și Compară luni. Perioade de 1, 3, 6 și 12 luni, tipărire/PDF și export CSV |
+| **Adaugă** | Cheltuieli, încasări (și în **EUR/USD**, cu curs manual), rambursări de datorii și transferuri între Card și Numerar |
+| **Istoric** | Căutare, filtre pe tip, dată, sumă, cont și categorie; selecție multiplă cu ștergere, recategorisire și mutare de cont în masă (cu anulare); editare, duplicare și ștergere |
+| **Rapoarte** | 11 rapoarte. **Rezumat** pe orice perioadă (lună, 3/6/12 luni, an sau interval ales) cu concluzii în text, comparație cu perioada anterioară și export CSV. Apoi: Prezentare (flux Sankey, evoluția soldului, recurente, hartă termică), Bugete, Categorie, Datorii și economii, Conturi și tichete, Prognoză, An, Venituri, Comercianți și Compară luni |
 | **Planificare** | Calendar lunar cu salarii și facturi, înregistrare manuală sau automată |
 | **Economii** | Obiective cu progres, contribuții și retrageri |
 | **Persoane** | Cine îți datorează și cui datorezi, cu istoric și împrumuturi |
@@ -35,6 +35,16 @@ Interfața are meniu lateral, butoane rotunde în stil iOS, albastru închis, mo
 
 <img src="docs/rapoarte-mobil.png" alt="Rapoarte pe telefon" width="100%">
 
+### ✨ Noutăți V28
+
+![Rezumat desktop](docs/rezumat-desktop.png)
+
+<img src="docs/v28-mobil.png" alt="V28 pe telefon: Rezumat, selecție multiplă, monede" width="100%">
+
+- **Monede:** introduci o cheltuială sau un venit în EUR/USD, cu cursul tău. Suma se salvează în RON (soldurile și rapoartele rămân în RON), iar suma originală și cursul se păstrează și apar în Istoric și rapoarte.
+- **Operațiuni în masă:** în *Istoric* apeși *Selectează*, bifezi și alegi ștergere, categorie sau cont.
+- **Interfață:** iconițe SVG, antet translucid, butoane și animații fine; respectă setarea „reducere mișcare".
+
 ## 📱 Instalare pe telefon
 
 **iPhone (Safari):** deschide linkul aplicației → *Distribuie* → *Adaugă pe ecranul principal*.
@@ -45,10 +55,13 @@ După prima încărcare, aplicația funcționează și fără internet.
 
 ## 🚀 Publicare pe GitHub Pages
 
-1. Urcă toate fișierele din acest repository în rădăcina lui.
-2. Mergi la **Settings → Pages**.
-3. La *Source* alege **Deploy from a branch**, ramura `main` și folderul `/ (root)`.
-4. După un minut, aplicația apare la `https://<utilizator>.github.io/<repository>/`.
+**Varianta automată (recomandată):** repository-ul include `.github/workflows/pages.yml`.
+
+1. Urcă toate fișierele în rădăcina repository-ului (ramura `main`).
+2. Mergi la **Settings → Pages** și la *Source* alege **GitHub Actions**.
+3. La fiecare `push`, aplicația se publică singură la `https://<utilizator>.github.io/<repository>/`. Starea o vezi în tab-ul *Actions*.
+
+**Varianta simplă:** la *Source* alege **Deploy from a branch**, ramura `main`, folderul `/ (root)`. Merge fără workflow, dar atunci publici și folderul `tests/`.
 
 Dacă după o actualizare vezi versiunea veche, închide tabul și redeschide linkul. Service worker-ul își reîmprospătează singur memoria cache.
 
@@ -77,7 +90,17 @@ Dacă după o actualizare vezi versiunea veche, închide tabul și redeschide li
 index.html            # structura paginii
 store.js              # stocare sigură, criptare, Face ID, instantanee
 app.css               # stiluri, temă luminoasă/întunecată, responsive
-app.js                # toată logica aplicației
+js/                   # logica aplicației, împărțită în module
+  core.js             #   date, solduri, ecranele de bază
+  features.js         #   planificare, economii, persoane, carduri, setări
+  dashboard.js        #   ecranul Acasă și grafice
+  reports.js          #   rapoartele
+  crud.js             #   editare și ștergere
+  security-ui.js      #   securitate, import, conversie carduri
+  v28.js              #   filtre, selecție în masă, monede, Rezumat
+  main.js             #   randare și evenimente globale
+tests/                # teste automate Playwright
+.github/workflows/    # teste și publicare automată pe GitHub Pages
 sw.js                 # service worker (funcționare offline)
 manifest.webmanifest  # configurare PWA
 icon-180/192/512.png  # iconițe
@@ -88,18 +111,19 @@ docs/                 # capturi pentru acest README
 
 HTML, CSS și JavaScript simplu, fără framework și fără dependențe externe. Graficele sunt făcute din SVG și CSS.
 
-## 🧪 Rulare locală
+## 🧪 Rulare locală și teste
 
 ```bash
 python3 -m http.server 8000
 # apoi deschide http://localhost:8000
 ```
 
-Service worker-ul are nevoie de `http://localhost` sau `https`. Deschis direct din fișier, aplicația merge, dar fără mod offline.
+Testele automate (`tests/`, vezi `tests/README.md`) rulează și în GitHub Actions la fiecare `push`. Service worker-ul are nevoie de `http://localhost` sau `https`. Deschis direct din fișier, aplicația merge, dar fără mod offline.
 
 ## 🗺 Idei pentru viitor
 
-- Mai multe monede și cursuri de schimb
+- Import din extras bancar (BT, ING, Revolut)
+- Conturi și solduri în mai multe monede
 - Operațiuni recurente cu reguli mai complexe
 - Import din extrasul bancar (CSV)
 - Sincronizare opțională între dispozitive
