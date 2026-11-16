@@ -61,13 +61,16 @@ const prep=(c,cr,prag)=>{const sx=Math.round(cr.x0*c.width),sy=Math.round(cr.y0*
 const parse=(tip,t)=>tip==='income'?P.citesteVenit(t):P.citesteBon(t,{invatare:{}});
 const score=(r,tip)=>tip==='income'?(r.total==null?1e9:0):(r.total==null||!r.produse.length?1e8-r.produse.length:Math.abs(r.diferenta)*100-r.produse.length*.01);
 const read=async()=>{S.step='busy';S.pas=.25;S.pasL=.7;prog(.03,'Pregătesc poza…');render();
- try{const w=await getWorker();let r=await w.recognize(prep(S.img,S.crop,false)),t=r.data.text||'',best={t,r:parse(S.tip,t)};
-  if(score(best.r,S.tip)>=.5){S.pas=.6;S.pasL=.38;prog(.6,'Mai încerc o dată, cu alt filtru…');r=await w.recognize(prep(S.img,S.crop,true));const t2=r.data.text||'',r2=parse(S.tip,t2);if(score(r2,S.tip)<score(best.r,S.tip))best={t:t2,r:r2}}
+ try{const w=await getWorker(),c1=prep(S.img,S.crop,false);let r=await w.recognize(c1),t=r.data.text||'',best={t,r:parse(S.tip,t),c:c1,v:'gri',conf:r.data.confidence};
+  if(score(best.r,S.tip)>=.5){S.pas=.6;S.pasL=.38;prog(.6,'Mai încerc o dată, cu alt filtru…');const c2=prep(S.img,S.crop,true);r=await w.recognize(c2);const t2=r.data.text||'',r2=parse(S.tip,t2);if(score(r2,S.tip)<score(best.r,S.tip))best={t:t2,r:r2,c:c2,v:'alb-negru',conf:r.data.confidence}}
+  // diagnostic: poza exact cum a ajuns la cititor (micșorată), dimensiuni, încredere
+  try{const k=Math.min(1,700/best.c.width),d=document.createElement('canvas');d.width=best.c.width*k;d.height=best.c.height*k;d.getContext('2d').drawImage(best.c,0,0,d.width,d.height);
+   S.diag={img:d.toDataURL('image/jpeg',.8),info:`poza ${S.img.width}×${S.img.height} · citit ${best.c.width}×${best.c.height} · filtru ${best.v} · încredere ${Math.round(best.conf||0)}% · ${simd()?'SIMD':'fără SIMD'}`}}catch(e){S.diag=null}
   fromText(best.t,S.tip,best.r)}
  catch(e){console.error(e);S.step='crop';render();alert(navigator.onLine?'Nu am putut citi bonul: '+(e.message||e):'Prima scanare are nevoie de internet, ca să descarce dicționarul românesc (aprox. 10 MB).')}};
 
 /* ---------- din text -> ecran de verificare ---------- */
-const fromText=(text,tip,r)=>{S.tip=tip;S.text=text;r=r||parse(tip,text);
+const fromText=(text,tip,r)=>{if(S.step!=='busy')S.diag=null;S.tip=tip;S.text=text;r=r||parse(tip,text);
  if(tip==='income'){const ic=incCats(),d=(r.descriere||'').toLowerCase(),pick=(...n)=>n.find(x=>ic.includes(x))||ic[0];
   S.inc={note:r.descriere||'',amount:r.total,date:r.date||r.data||'',kind:'income',account:'Card',category:/salar/.test(d)?pick('Salariu card'):/depunere/.test(d)?pick('Venit cash','Alte venituri'):pick('Alte venituri')};S.dataGasita=!!r.data;S.step='inc'}
  else{const k=r.categorieMagazin;S.bon={mag:r.magazin||'',date:r.data||today(),total:r.totalGasit===false?'':r.total,storeKey:k,items:r.produse.map(p=>{const c=catOf(p.nume,k);return{n:p.nume,s:p.suma,q:p.cantitate,u:p.um,pu:p.pretUnitar,red:p.reducere,sgr:p.sgr,est:p.estimat,adj:p.ajustat,nec:p.necitit,fix:p.corectat?p.sumaCitita:null,cat:c.cat,src:c.src}})};
@@ -84,6 +87,7 @@ V.scan=()=>{queueMicrotask(after);
   <p class="mu">${S.tip==='income'?'Fotografiază chitanța de la bancă (depunere numerar, alimentare cont). Suma intră la venituri sau, dacă vrei, ca transfer din numerar în card.':'Fotografiază bonul de cumpărături. Citesc produsele și le pun pe categoriile tale. Tu doar verifici și salvezi.'}</p>
   <label class="btn sc-big">📷 Fă o poză bonului<input type="file" id="scCam" accept="image/*" capture="environment" hidden></label>
   <label class="btn s sc-big2">🖼 Alege o poză din galerie<input type="file" id="scGal" accept="image/*" hidden></label>
+  <details class="sc-paste"><summary>📋 Lipește textul bonului (citit de iPhone)</summary><p class="mu">Deschide poza bonului în <b>Poze</b>, apasă iconița de text din colțul pozei (Live Text), apoi <b>Selectează tot → Copiază</b> și lipește aici.</p><textarea id="scPaste" rows="7" placeholder="Lipește aici textul bonului"></textarea><button class="btn s m" data-scact="paste" style="margin-top:8px">Citește textul</button></details>
   <details class="sc-tips"><summary>Sfaturi pentru o citire bună</summary><ul><li>Câte un bon pe poză, cât mai aproape, să umple ecranul.</li><li>Netezește bonul cu palma: cutele strică citirea.</li><li>Pune-l pe o suprafață închisă la culoare.</li><li>Lumină bună, fără umbră peste bon și fără blitz direct.</li><li>Telefonul drept deasupra bonului, ca bonul să umple poza.</li><li>Bonurile lungi: poză din două bucăți, salvate pe rând.</li></ul></details>
   <small class="mu">Textul se citește pe telefon, iar bonul nu pleacă nicăieri. La prima scanare se descarcă o singură dată dicționarul românesc (aprox. 10 MB).</small></div>`;
  if(S.step==='crop')return `<div class="card"><h2>Încadrează bonul</h2><p class="mu">Trage colțurile albastre ca chenarul să cuprindă doar bonul, cu tot cu sumele din dreapta.</p>
@@ -110,7 +114,7 @@ V.scan=()=>{queueMicrotask(after);
  <div class="card"><h2>Se salvează așa</h2><div id="scGr"></div><label class="sc-ck"><input type="checkbox" id="scPeCat" ${S.peCat?'checked':''}> Câte o operațiune pe fiecare categorie (recomandat)</label></div>
  ${txtCard()}<div class="acts sc-save"><button class="btn s" data-scact="cancel">Renunță</button><button class="btn" data-scact="saveexp">Salvează</button></div>`};
 const det=i=>[i.q&&i.q!==1?`${i.q}${i.u?' '+i.u.toLowerCase():''} × ${money(i.pu)}`:'',i.red?'reducere '+money(i.red):'',i.sgr?'garanție SGR '+money(i.sgr):'',i.nec?'⚠ numele nu s-a putut citi: scrie-l tu':'',i.est?'⚠ suma nu s-a citit, am calculat-o: verific-o':'',i.adj?'suma completată din total: verific-o':'',i.fix!=null?`am corectat suma (citisem ${money(i.fix)}) după cantitate × preț și total`:''].filter(Boolean).map(esc).join(' · ');
-const txtCard=()=>S.text?`<details class="card sc-txt"><summary>Textul citit de pe bon</summary><pre>${esc(S.text)}</pre></details>`:'';
+const txtCard=()=>S.text?`<details class="card sc-txt"><summary>Textul citit de pe bon</summary>${S.diag?`<p class="mu" style="margin:8px 0 6px;font-size:12px">${esc(S.diag.info)}</p><img src="${S.diag.img}" alt="Poza citită" class="sc-diag">`:''}<pre>${esc(S.text)}</pre></details>`:'';
 
 /* ---------- după randare: poze, chenar, totaluri ---------- */
 function after(){document.body.classList.toggle('scanning',tab==='scan');if(tab!=='scan')return;
@@ -147,6 +151,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)r
   else if(a==='auto'){S.crop=autoCrop(S.img);box()}
   else if(a==='full'){S.crop={x0:0,y0:0,x1:1,y1:1};box()}
   else if(a==='read')read();
+  else if(a==='paste'){const t=($('scPaste')?.value||'').trim();if(!t)return alert('Lipește întâi textul bonului.');S.diag=null;fromText(t,S.tip)}
   else if(a==='additem'){S.bon.items.push({n:'',s:0,cat:mapCat(S.bon.storeKey||'alimente'),src:'manual'});render();const l=document.querySelectorAll('[data-k="n"]');l[l.length-1]?.focus()}
   else if(a==='diff'){const s=val(sum(S.bon.items,i=>i.s)),df=val(Number(S.bon.total)-s);if(df)S.bon.items.push({n:'Diferență bon',s:df,cat:mapCat('altele'),src:'manual',manual:true});render()}
   else if(a==='saveexp')saveExp();else if(a==='saveinc')saveInc()}});

@@ -140,3 +140,6 @@ body.scanning .fab{display:none!important}
 .pr-hist{margin-top:6px}.pr-pt{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--ln);font-size:14px}.pr-pt:last-child{border-bottom:0}
 .pr-pt small{display:block;color:var(--mu);font-size:12px}.pr-pt b{text-align:right}@media(max-width:600px){.pr-pt{grid-template-columns:110px 1fr 76px}}
 [data-prod]{color:var(--tx);text-decoration:none;border-bottom:1px dashed var(--mu)}
+
+.sc-diag{display:block;max-width:100%;border:1px solid var(--ln);border-radius:8px;margin-bottom:8px;background:#fff}
+.sc-paste summary{cursor:pointer;font-weight:650;color:var(--ac)}.sc-paste p{margin:8px 0}.sc-paste textarea{width:100%;font:13px ui-monospace,Menlo,monospace;padding:10px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--tx)}
