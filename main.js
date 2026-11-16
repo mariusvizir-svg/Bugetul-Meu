@@ -1,0 +1,27 @@
+'use strict';
+/* Randare, evenimente globale, pornire */
+const IC=p=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`,
+ICON={home:IC('<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>'),add:IC('<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>'),hist:IC('<path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>'),rep:IC('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),plan:IC('<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'),goal:IC('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>'),pers:IC('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 010 7M18 14.2c2.2.6 3.5 2.6 3.5 5.8"/>'),debt:IC('<path d="M3 9l9-6 9 6"/><path d="M5 10v8M10 10v8M14 10v8M19 10v8M3 21h18"/>'),cards:IC('<rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M2.5 10h19M6 15h4"/>'),set:IC('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3h0a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9v0a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/>')};
+let _rd=false,_rq=false;
+function render(){if(_rd){_rq=true;return}if(tab!=='hist'&&selMode){selMode=false;selSet.clear();document.body.classList.remove('sel')}_rd=true;try{renderNow()}finally{_rd=false}if(_rq){_rq=false;render()}}
+function renderNow(){$('nav').innerHTML=NAV.map(([k,i,n])=>`<button class="nb ${tab===k?'on':''}" data-go="${k}"><span class="nic">${ICON[k]||i}</span>${n}</button>`).join('');$('title').textContent=NAV.find(n=>n[0]===tab)[2];$('month').value=month;const y=scrollY;$('view').innerHTML=V[tab]();document.body.classList.remove('open')}
+const dl=(name,txt,type)=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=name;a.click()},id=()=>crypto.randomUUID?crypto.randomUUID():Date.now()+''+Math.random(),F=e=>(e.preventDefault(),Object.fromEntries(new FormData(e.target)));
+document.addEventListener('click',e=>{const t=e.target.closest('button,[data-go]');if(!t)return;const d=t.dataset;
+if(t.id==='burger')document.body.classList.toggle('open');else if(t.id==='theme'){document.body.classList.toggle('dark');localStorage.setItem('bm-theme',document.body.classList.contains('dark')?'d':'l')}
+else if(d.go){tab=d.go;render();scrollTo(0,0)}else if(d.type){entry=d.type;render()}else if(d.kind){kind=d.kind;render()}
+else if(d.del){const x=data.transactions.find(y=>y.id===d.del);data.transactions=data.transactions.filter(y=>y!==x);save();toast('Operațiune ștearsă',()=>{data.transactions.push(x);save()})}
+else if(d.act==='print')print();else if(d.act==='backup')dl('backup-bugetul-meu-'+today()+'.json',JSON.stringify(data),'application/json');
+else if(d.act==='csv')dl('operatiuni-'+month+'.csv','\ufeff'+['Data;Tip;Categorie;Cont;Notă;Sumă',...tx().map(t=>[t.date,TYPES[t.type],t.category,t.account,t.note,t.amount].map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';'))].join('\r\n'),'text/csv')});
+document.addEventListener('input',e=>{if(e.target.id==='q'){q=e.target.value.toLowerCase();const p=e.target.selectionStart;render();const i=$('q');i.focus();i.setSelectionRange(p,p)}});
+document.addEventListener('change',e=>{if(e.target.id==='month'){month=e.target.value||month;render()}if(e.target.id==='imp'){importFile(e.target.files[0]);e.target.value=''}});
+document.addEventListener('submit',e=>{const f=e.target.id,v=F(e),n=val(v.amount);
+if(f==='f'){if(!(n>0))return;const t={id:id(),created:Date.now(),date:v.date,type:entry,amount:n,account:v.account,note:v.note.trim(),category:v.category||'',debtId:v.debtId||'',to:v.to||''};
+if(t.type==='transfer'&&t.account===t.to)return alert('Alege două conturi diferite.');if(t.type==='debt'&&!t.debtId)return alert('Adaugă întâi o datorie.');
+if(t.account.startsWith('voucher:')&&n>vbal(t.account))return alert('Sold insuficient pe cardul ales.');data.transactions.push(t);tab='home';save()}
+else if(f==='df'){data.debts.push({id:id(),name:v.name.trim(),amount:n});save()}
+else if(f==='cf'){data.v14.cards.push({id:id(),name:v.name.trim(),type:'meal',issuer:'',opening:Math.max(0,val(v.opening))});save()}
+else if(f==='lf'){data.v14.cardMoves.push({id:id(),cardId:v.cardId,kind:'load',amount:n,date:today(),note:''});save()}
+else if(f==='of'){data.opening={Card:val(v.Card),Numerar:val(v.Numerar)};save()}});
+(()=>{const m=cur(),dd=+today().slice(8);let ch=0;data.v11.plans.forEach(p=>{if(p.auto&&p.day<=dd&&!(p.done||{})[m]){data.transactions.push({id:id(),created:Date.now(),date:m+'-'+String(Math.min(p.day,dim(m))).padStart(2,'0'),type:p.kind,amount:p.amount,account:'Card',note:p.title+' (automat)',category:p.kind==='income'?incCats()[0]:'Altele',debtId:'',to:''});(p.done=p.done||{})[m]=true;ch=1}});if(ch)Store.save(data)})();
+if(localStorage.getItem('bm-theme')==='d')document.body.classList.add('dark');
+render();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');

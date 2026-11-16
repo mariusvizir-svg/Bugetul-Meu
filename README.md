@@ -2,7 +2,6 @@
 
 Aplicație web de buget personal, în limba română, care rulează direct în browser și se poate instala pe telefon ca o aplicație (PWA). **Datele rămân doar pe dispozitivul tău**: nu există server, cont sau abonament.
 
-![Dashboard desktop](docs/dashboard-desktop.png)
 
 > Capturile folosesc date de demonstrație.
 
@@ -25,32 +24,26 @@ Aplicație web de buget personal, în limba română, care rulează direct în b
 Interfața are meniu lateral, butoane rotunde în stil iOS, albastru închis, mod întunecat, și se adaptează atât pe telefon, cât și pe desktop.
 
 <p>
-  <img src="docs/dashboard-mobil.png" alt="Dashboard mobil" width="70%">
-  <img src="docs/setari-mobil.png" alt="Setări mobil" width="25%">
 </p>
 
 ### 📊 Rapoarte
 
-![Rapoarte desktop](docs/rapoarte-desktop.png)
 
-<img src="docs/rapoarte-mobil.png" alt="Rapoarte pe telefon" width="100%">
 
 ### 📷 Noutăți V29: scanare bonuri
 
-<img src="docs/v29-scanare.png" alt="V29: scanare bon, încadrare, verificare" width="100%">
+<img src="v29-scanare.png" alt="V29: scanare bon, încadrare, verificare" width="100%">
 
 - **Scanează bon** (meniu sau butonul din *Adaugă*): fotografiezi bonul, potrivești chenarul și aplicația citește produsele, prețurile, totalul, data, magazinul și modul de plată (card, numerar, tichete).
 - **Pe categoriile tale:** fiecare produs primește una dintre categoriile aplicației (Mâncare, Cumpărături casă, Sănătate, Transport…). Bonul se salvează ca o operațiune pe fiecare categorie sau, dacă vrei, ca una singură. Nota este magazinul, deci apare corect și în raportul *Comercianți*.
 - **Învață din corecturi:** când schimbi categoria unui produs, data viitoare îl încadrează singur (lista e în *Setări → Scanare bonuri*).
 - **Verificare:** suma produselor se compară cu totalul bonului. O sumă citită greșit se corectează singură când cantitatea × prețul o confirmă. Bonurile deja salvate sunt semnalate.
 - **Chitanță de la bancă:** depunerea se salvează ca venit sau ca transfer *Numerar → Card*.
-- **Fără internet și fără servere:** textul se citește pe telefon (Tesseract, limba română, folderul `ocr/`). Bonul nu pleacă nicăieri. Prima scanare descarcă o singură dată aproximativ 10 MB.
+- **Toate fișierele stau direct în rădăcina repository-ului, fără foldere.** **Fără internet și fără servere:** textul se citește pe telefon (Tesseract, limba română: `tesseract.min.js`, `worker.min.js`, `tesseract-core-*.wasm.js`, `ron.traineddata`). Bonul nu pleacă nicăieri. Prima scanare descarcă o singură dată aproximativ 10 MB.
 
 ### ✨ Noutăți V28
 
-![Rezumat desktop](docs/rezumat-desktop.png)
 
-<img src="docs/v28-mobil.png" alt="V28 pe telefon: Rezumat, selecție multiplă, monede" width="100%">
 
 - **Monede:** introduci o cheltuială sau un venit în EUR/USD, cu cursul tău. Suma se salvează în RON (soldurile și rapoartele rămân în RON), iar suma originală și cursul se păstrează și apar în Istoric și rapoarte.
 - **Operațiuni în masă:** în *Istoric* apeși *Selectează*, bifezi și alegi ștergere, categorie sau cont.
@@ -66,13 +59,11 @@ După prima încărcare, aplicația funcționează și fără internet.
 
 ## 🚀 Publicare pe GitHub Pages
 
-**Varianta automată (recomandată):** repository-ul include `.github/workflows/pages.yml`.
+Toate fișierele stau direct în rădăcina repository-ului, **fără foldere**, deci se pot urca și de pe iPhone.
 
-1. Urcă toate fișierele în rădăcina repository-ului (ramura `main`).
-2. Mergi la **Settings → Pages** și la *Source* alege **GitHub Actions**.
-3. La fiecare `push`, aplicația se publică singură la `https://<utilizator>.github.io/<repository>/`. Starea o vezi în tab-ul *Actions*.
-
-**Varianta simplă:** la *Source* alege **Deploy from a branch**, ramura `main`, folderul `/ (root)`. Merge fără workflow, dar atunci publici și folderul `tests/`.
+1. În repository: **Add file → Upload files**, selectează toate fișierele și apasă **Commit changes**.
+2. **Settings → Pages**: la *Source* alege **Deploy from a branch**, ramura `main`, folderul `/ (root)`.
+3. Aplicația se publică la `https://<utilizator>.github.io/<repository>/`.
 
 Dacă după o actualizare vezi versiunea veche, închide tabul și redeschide linkul. Service worker-ul își reîmprospătează singur memoria cache.
 
@@ -91,39 +82,37 @@ Dacă după o actualizare vezi versiunea veche, închide tabul și redeschide li
 > ⚠️ Nu există recuperare de parolă. Păstrează un backup JSON recent și nu-l urca pe GitHub: conține finanțele tale.
 > Nicio dată nu este trimisă pe internet. Dacă ștergi datele site-ului din browser, le pierzi, de aceea backup-ul rămâne important.
 
-![Securitate](docs/securitate-mobil.png)
 
-<img src="docs/carduri-blocare.png" alt="Conversie carduri și ecran de blocare" width="70%">
 
 ## 🗂 Structura proiectului
+
+Toate fișierele sunt în rădăcină:
 
 ```
 index.html            # structura paginii
 store.js              # stocare sigură, criptare, Face ID, instantanee
 app.css               # stiluri, temă luminoasă/întunecată, responsive
-js/                   # logica aplicației, împărțită în module
-  core.js             #   date, solduri, ecranele de bază
-  features.js         #   planificare, economii, persoane, carduri, setări
-  dashboard.js        #   ecranul Acasă și grafice
-  reports.js          #   rapoartele
-  crud.js             #   editare și ștergere
-  security-ui.js      #   securitate, import, conversie carduri
-  v28.js              #   filtre, selecție în masă, monede, Rezumat
-  bon-parser.js       #   citirea bonului fiscal din text + încadrare
-  scanner.js          #   scanare bonuri: poză, chenar, verificare, salvare
-ocr/                  # cititorul de text (Tesseract.js + limba română)
-  main.js             #   randare și evenimente globale
-tests/                # teste automate Playwright
-.github/workflows/    # teste și publicare automată pe GitHub Pages
+core.js               # date, solduri, ecranele de bază
+features.js           # planificare, economii, persoane, carduri, setări
+dashboard.js          # ecranul Acasă și grafice
+reports.js            # rapoartele
+crud.js               # editare și ștergere
+security-ui.js        # securitate, import, conversie carduri
+v28.js                # filtre, selecție în masă, monede, Rezumat
+bon-parser.js         # citirea bonului fiscal din text + încadrare
+scanner.js            # scanare bonuri: poză, chenar, verificare, salvare
+main.js               # randare și evenimente globale
+tesseract.min.js, worker.min.js, tesseract-core-lstm.wasm.js,
+tesseract-core-simd-lstm.wasm.js, ron.traineddata   # cititorul de text (Tesseract.js + limba română)
 sw.js                 # service worker (funcționare offline)
 manifest.webmanifest  # configurare PWA
 icon-180/192/512.png  # iconițe
-docs/                 # capturi pentru acest README
+v29-scanare.png       # captură pentru acest README
 ```
 
 ## 🛠 Tehnologii
 
-HTML, CSS și JavaScript simplu, fără framework. Singura bibliotecă externă este [Tesseract.js](https://github.com/naptha/tesseract.js) (licență Apache 2.0), inclusă în `ocr/` și încărcată doar la scanare. Graficele sunt făcute din SVG și CSS.
+HTML, CSS și JavaScript simplu, fără framework. Singura bibliotecă externă este [Tesseract.js](https://github.com/naptha/tesseract.js) (licență Apache 2.0), inclusă în repository și încărcată doar la scanare. Graficele sunt făcute din SVG și CSS.
 
 ## 🧪 Rulare locală și teste
 
@@ -132,7 +121,7 @@ python3 -m http.server 8000
 # apoi deschide http://localhost:8000
 ```
 
-Testele automate (`tests/`, vezi `tests/README.md`) rulează și în GitHub Actions la fiecare `push`. Service worker-ul are nevoie de `http://localhost` sau `https`. Deschis direct din fișier, aplicația merge, dar fără mod offline.
+Service worker-ul are nevoie de `http://localhost` sau `https`. Deschis direct din fișier, aplicația merge, dar fără mod offline.
 
 ## 🗺 Idei pentru viitor
 
