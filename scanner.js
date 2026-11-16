@@ -153,7 +153,7 @@ function saveExp(){const b=S.bon,items=b.items.filter(i=>i.s&&(i.n||'').trim()),
  if(hasT&&items.length&&Math.abs(t-s)>=.01&&!confirm(`Produsele dau ${money(s)}, iar totalul bonului e ${money(t)}.\nSalvez produsele așa cum sunt (${money(s)})?`))return;
  const amount=items.length?s:t;if(b.account.startsWith('voucher:')&&amount>vbal(b.account))return alert('Sold insuficient pe cardul ales.');
  items.forEach(i=>{if(i.manual)P.invata(data.scanner.learn,i.n,i.cat)});
- const bon={id:id(),total:hasT?t:null,mag:b.mag.trim()},note=b.mag.trim()||'Bon',now=Date.now(),mk=(cat,am,its,k)=>({id:id(),created:now+k,date:b.date,type:'expense',amount:val(am),account:b.account,note,category:cat,debtId:'',to:'',items:its.map(i=>({n:i.n.trim(),s:i.s})),bon});
+ const bon={id:id(),total:hasT?t:null,mag:b.mag.trim()},note=b.mag.trim()||'Bon',now=Date.now(),mk=(cat,am,its,k)=>({id:id(),created:now+k,date:b.date,type:'expense',amount:val(am),account:b.account,note,category:cat,debtId:'',to:'',items:its.map(i=>({n:i.n.trim(),s:i.s,...(i.q&&i.q!==1?{q:i.q,u:i.u||'',pu:i.pu}:{})})),bon});
  const add=!items.length?[mk(mapCat(b.storeKey||'altele'),t,[],0)]:S.peCat?groups(items).map((g,k)=>mk(g.cat,g.s,items.filter(i=>i.cat===g.cat),k)):[mk(groups(items)[0].cat,s,items,0)];
  data.transactions.push(...add);const ids=new Set(add.map(x=>x.id));month=b.date.slice(0,7);reset();tab='home';document.body.classList.remove('scanning');save();scrollTo(0,0);
  toast(`Bon salvat: ${add.length} ${add.length===1?'operațiune':'operațiuni'}, ${money(sum(add))}`,()=>{data.transactions=data.transactions.filter(x=>!ids.has(x.id));save()})}

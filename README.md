@@ -30,6 +30,12 @@ Interfața are meniu lateral, butoane rotunde în stil iOS, albastru închis, mo
 
 
 
+### 🧾 Noutăți V30: produse și prețuri
+
+- **Produsele în istoric:** la cheltuielile scanate apare „🧾 N produse”. Atingi și vezi fiecare produs, cu prețul și cantitatea lui.
+- **Căutare după produs:** în *Istoric*, căutarea „kefir” găsește bonurile care au kefir. Nu contează diacriticele și nici literele mari.
+- **Raportul Produse** (*Rapoarte → Produse*): ce s-a scumpit sau s-a ieftinit, la ce magazin e mai ieftin, ce cumperi cel mai des, pe ce dai cei mai mulți bani și istoricul de preț al fiecărui produs. Prețul se calculează pe bucată sau pe kg. Produsele scrise ușor diferit pe bonuri („Kefir 1,5%” și „KEFIR 1.5%”) se grupează împreună.
+
 ### 📷 Noutăți V29: scanare bonuri
 
 <img src="v29-scanare.png" alt="V29: scanare bon, încadrare, verificare" width="100%">
@@ -101,6 +107,7 @@ security-ui.js        # securitate, import, conversie carduri
 v28.js                # filtre, selecție în masă, monede, Rezumat
 bon-parser.js         # citirea bonului fiscal din text + încadrare
 scanner.js            # scanare bonuri: poză, chenar, verificare, salvare
+produse.js            # raportul Produse: prețuri, magazine, scumpiri
 main.js               # randare și evenimente globale
 tesseract.min.js, worker.min.js, tesseract-core-lstm.wasm.js,
 tesseract-core-simd-lstm.wasm.js, ron.traineddata   # cititorul de text (Tesseract.js + limba română)
