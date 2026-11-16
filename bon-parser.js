@@ -1,4 +1,4 @@
-/* Bugetul Meu V31 · cititor bon fiscal (text OCR -> produse, total, magazin, plată, dată) + încadrare. */
+/* Bugetul Meu V32 · cititor bon fiscal (text OCR -> produse, total, magazin, plată, dată) + încadrare. */
 /* parser.js — citire bon fiscal românesc din textul OCR + încadrare pe categorii.
    Fără dependențe. În browser: window.BonParser. În Node: module.exports. */
 (function (root) {
@@ -203,7 +203,7 @@
       if (/\d[.,]\d/.test(l)) break;   // am ajuns la produse
       var curat = l.replace(/[^A-Z0-9 .&-]/g, ''), litere = (l.match(/[A-Z]/g) || []).length, nespatii = l.replace(/\s/g, '').length;
       var bun = /\bS\.?\s?R\.?\s?L\b|\bS\.?A\.?$|^S\.?C\.?\s/.test(l) && nespatii >= 4 && litere / nespatii >= 0.75 && /[A-Z]{4,}/.test(l) && curat.length >= l.length - 2;
-      if (bun && !IGNORA.test(l) && !RE_CANT.test(l) && !RE_SUMA_FINAL.test(l)) return { nume: l.replace(/^S\.?C\.?\s+/, '').replace(/\b(S\.?\s?R\.?\s?L\.?|S\.?A\.?)(\W.*)?$/, '').trim(), categorie: null };
+      if (bun && !IGNORA.test(l) && !RE_CANT.test(l) && !RE_SUMA_FINAL.test(l)) return { nume: l.replace(/^(?:[A-Z]{1,2}\s+)+(?=[A-Z]{3,})/, '').replace(/^S\.?C\.?\s+/, '').replace(/\b(S\.?\s?R\.?\s?L\.?|S\.?A\.?)(\W.*)?$/, '').trim(), categorie: null };
     }
     return { nume: '', categorie: null };
   }
@@ -313,6 +313,7 @@
   }
   // sfârșitul listei de produse: SUBTOTAL/TOTAL/TVA..., chiar cu „gunoi” în față sau cu TOTAL citit greșit
   function esteStop(L) {
+    if (/\s-\s*(21|19|11|9|5|0)\s*[%4]|\b(21|19|11|9|5|0)[.,]00\s*%/.test(L)) return true;
     var fara = L.replace(/^(?:\S{1,3}\s+){1,3}/, '');
     if (STOP_PRODUSE.test(L) || STOP_PRODUSE.test(fara)) return true;
     return L.split(/[^A-Z0-9]+/).some(function (x) {
@@ -333,7 +334,7 @@
       if (/(COD (DE )?IDENTIFICARE|C\.?I\.?F|CUI|C\.?U\.?I|COD FISCAL|^LEI$|^RON$|^\s*LEI\s*$)/.test(liniiN[i])) start = i + 1;
     }
     var produse = [];
-    var numeAsteptat = null, cantAsteptata = null;
+    var numeAsteptat = null, cantAsteptata = null, peUnRand = false;
 
     for (i = start; i < liniiN.length; i++) {
       var L = liniiN[i], orig = linii[i];
@@ -357,6 +358,7 @@
         continue;
       }
 
+      if (!mc && ms && peUnRand && produse.length && !esteRed && !esteSgr) break;
       if (mc) {
         var c = numar(mc[1]), pu = numar(mc[3]);
         var bucataNume = L.slice(0, L.indexOf(mc[0])).trim();
@@ -375,6 +377,15 @@
           else total = rot(c * pu);
         }
         var areSuma = !!(me || md);
+        if (areSuma && !numeReal(bucataNume) && !numeAsteptat && (peUnRand || me)) {
+          // rând „1 BUC X 3.20= 3.20 B” cu numele necitit: păstrăm suma, numele îl scrii tu
+          if (!SGR.test(L)) {
+            peUnRand = true;
+            produse.push({ nume: 'Produs necitit', cantitate: c, pretUnitar: pu, suma: total, um: unitate(mc[2]), cantitateSetata: true, necitit: true });
+            cantAsteptata = null;
+            continue;
+          }
+        }
         if (!areSuma && !numeReal(bucataNume)) {
           // format Lidl/Carrefour: „1,000 BUC x 15,00” apoi „BERE ... 15,00 A”
           // sau formatul invers: produsul cu suma deasupra, „2 x 6,49” dedesubt
@@ -397,8 +408,9 @@
           continue;
         }
         if (numeReal(bucataNume)) {
+          if (areSuma) peUnRand = true;
           produse.push({ nume: curataNume(orig.slice(0, orig.toUpperCase().indexOf(mc[0].toUpperCase())) || bucataNume),
-            cantitate: c, pretUnitar: pu, suma: total, um: unitate(mc[2]) });
+            cantitate: c, pretUnitar: pu, suma: total, um: unitate(mc[2]), cantitateSetata: true });
           numeAsteptat = null; cantAsteptata = null;
         } else if (numeAsteptat) {
           produse.push({ nume: numeAsteptat, cantitate: c, pretUnitar: pu, suma: total, um: unitate(mc[2]) });
