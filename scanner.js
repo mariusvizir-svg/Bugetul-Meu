@@ -1,5 +1,5 @@
 'use strict';
-/* V29: Scanare bonuri — poză → decupare → citire text pe telefon (Tesseract, limba română) →
+/* V29–V31: Scanare bonuri — poză → decupare → citire text pe telefon (Tesseract, limba română) →
    produse încadrate pe categoriile tale → salvare pe categorii. Venit/transfer din chitanța de la bancă.
    Ce corectezi la categorii se ține minte în data.scanner.learn. */
 data.scanner={learn:{},...(data.scanner||{})};
@@ -29,8 +29,19 @@ const getWorker=()=>workerP||(workerP=loadTess().then(()=>Tesseract.createWorker
 const loadImg=f=>new Promise((ok,no)=>{const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{const mx=2400,s=Math.min(1,mx/Math.max(im.naturalWidth,im.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*s);c.height=Math.round(im.naturalHeight*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c)};im.onerror=()=>{URL.revokeObjectURL(u);no(new Error('Poza nu poate fi deschisă'))};im.src=u});
 const rotate=c=>{const r=document.createElement('canvas');r.width=c.height;r.height=c.width;const x=r.getContext('2d');x.translate(r.width,0);x.rotate(Math.PI/2);x.drawImage(c,0,0);return r};
 const gray=(c,W)=>{const s=W/c.width,w=Math.max(1,Math.round(c.width*s)),h=Math.max(1,Math.round(c.height*s)),t=document.createElement('canvas');t.width=w;t.height=h;const x=t.getContext('2d',{willReadFrequently:true});x.drawImage(c,0,0,w,h);const d=x.getImageData(0,0,w,h).data,g=new Float32Array(w*h);for(let i=0,j=0;j<w*h;i+=4,j++)g[j]=(d[i]*299+d[i+1]*587+d[i+2]*114)/1000;return{w,h,g}};
-// propunere de chenar: unde sunt muchii clare de litere (marginile goale ale pozei rămân afară)
-const autoCrop=c=>{const W=400/Math.max(c.width,c.height)*c.width,{w,h,g}=gray(c,Math.max(40,Math.round(W)));const col=new Float32Array(w),e=new Uint8Array(w*h);
+// propunere de chenar: 1) hârtia = zona mare, deschisă și fără culoare (bonul pe masă, pe lemn etc.);
+// 2) dacă nu se distinge (fundal la fel de deschis), unde sunt muchii clare de litere
+const paperCrop=c=>{const s=200/Math.max(c.width,c.height),w=Math.max(1,Math.round(c.width*s)),h=Math.max(1,Math.round(c.height*s)),t=document.createElement('canvas');t.width=w;t.height=h;const x=t.getContext('2d',{willReadFrequently:true});x.drawImage(c,0,0,w,h);const d=x.getImageData(0,0,w,h).data,m=new Uint8Array(w*h);
+ for(let i=0,j=0;j<w*h;i+=4,j++){const mx=Math.max(d[i],d[i+1],d[i+2]),mn=Math.min(d[i],d[i+1],d[i+2]);m[j]=mx>110&&(mx-mn)/Math.max(mx,1)<.22?1:0}
+ const lab=new Int32Array(w*h),q=new Int32Array(w*h);let best=null,cur=0;
+ for(let j=0;j<w*h;j++){if(!m[j]||lab[j])continue;cur++;let a=0,b=0,n=0,x0=w,x1=0,y0=h,y1=0;q[b++]=j;lab[j]=cur;
+  while(a<b){const k=q[a++],yy=(k/w)|0,xx=k-yy*w;n++;if(xx<x0)x0=xx;if(xx>x1)x1=xx;if(yy<y0)y0=yy;if(yy>y1)y1=yy;
+   for(const nb of[xx>0?k-1:-1,xx<w-1?k+1:-1,yy>0?k-w:-1,yy<h-1?k+w:-1])if(nb>=0&&m[nb]&&!lab[nb]){lab[nb]=cur;q[b++]=nb}}
+  if(!best||n>best.n)best={n,x0,x1,y0,y1}}
+ if(!best)return null;const ar=(best.x1-best.x0+1)*(best.y1-best.y0+1)/(w*h);if(ar<.06||ar>.9)return null;const p=2;
+ return{x0:Math.max(0,best.x0-p)/w,y0:Math.max(0,best.y0-p)/h,x1:Math.min(w,best.x1+1+p)/w,y1:Math.min(h,best.y1+1+p)/h}};
+const autoCrop=c=>paperCrop(c)||edgeCrop(c);
+const edgeCrop=c=>{const W=400/Math.max(c.width,c.height)*c.width,{w,h,g}=gray(c,Math.max(40,Math.round(W)));const col=new Float32Array(w),e=new Uint8Array(w*h);
  for(let y=0;y<h;y++)for(let x=0;x<w-1;x++){const v=Math.abs(g[y*w+x+1]-g[y*w+x])>40?1:0;e[y*w+x]=v;col[x]+=v}
  const span=(v,fr,gap)=>{const n=v.length,k=new Float32Array(n);for(let i=0;i<n;i++){let s=0,c2=0;for(let j=Math.max(0,i-2);j<=Math.min(n-1,i+2);j++){s+=v[j];c2++}k[i]=s/c2}const m=Math.max(...k);if(!m)return[0,n-1];const on=[...k].map(x=>x>m*fr);let best=null,i=0;
   while(i<n){if(on[i]){let j=i;while(j+1<n&&(on[j+1]||on.slice(j+1,j+1+gap).some(Boolean)))j++;let s=0;for(let q=i;q<=j;q++)s+=k[q];if(!best||s>best[2])best=[i,j,s];i=j+1}else i++}return best?[best[0],best[1]]:[0,n-1]};
