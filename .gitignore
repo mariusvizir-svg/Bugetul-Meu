@@ -1,0 +1,6 @@
+# Nu urca niciodată backup-uri cu finanțele tale
+backup-*.json
+operatiuni-*.csv
+*.json.bak
+__pycache__/
+node_modules/
